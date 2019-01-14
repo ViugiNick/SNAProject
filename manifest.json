@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "SNAProject",
+  "description": "sentiment analysis for twitter",
+  "version": "0.0.1",
+  "browser_action": {
+    "default_icon": {
+      "512": "src/logo.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "js": ["src/colors.js", "src/content.js"],
+      "matches": [
+        "https://twitter.com/*",
+        "http://twitter.com/*"
+      ]
+    }
+  ]
+}
