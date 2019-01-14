@@ -1,66 +1,51 @@
+const SERVER = 'http://localhost:5000';
+
 Array.from(document.getElementsByClassName('tweet')).forEach(messageElement => {
-    addSentiment(messageElement, 0);
+    tweet_id = messageElement.getAttribute('data-tweet-id');
+
+    sentimentRequest(tweet_id, addSentiment);
 });
 
 function addSentiment(parent, value) {
-    // if (value == null || visualisedCache.has(id)) {
-    //     return;
-    // }
-    console.log("addSentiment");
-    console.log(parent.getAttribute('data-tweet-id'));
-
-    const idElement = document.createElement('div');
-    idElement.className = 'tweet-sentiment';
-    idElement.style.backgroundColor = getColorForPercentage(value);
-    idElement.title = 'Sentiment: ' + (value * 100).toFixed(2) + '%';
-    parent.appendChild(idElement);
-    //visualisedCache.set(id, idElement);
-}
-
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.type === 'OPEN_DIALOG') {
-//         tabId = message.tabId;
-//         timer = createTimer();
-//     } else if (message.type === 'CLOSE_DIALOG' && timer) {
-//         clearInterval(timer);
-//         removeInputSentiment();
-//     }
-// });
-//
-// function createTimer() {
-//     console.log("createTimer");
-//     return setInterval(() => {
-//         chrome.storage.sync.get(['enabled'], () => {
-//             Array.from(document.getElementsByClassName('js-tweet-text-container')).forEach(messageElement => {
-//                 addSentiment(messageElement);
-//             });
-//         });
-//     }, 300);
-// }
-//
-// function addSentiment(parent) {
-//     // if (value == null || visualisedCache.has(id)) {
+  console.log('addSentiment ');
+//   // if (value == null || visualisedCache.has(id)) {
 //     //     return;
 //     // }
-//     const idElement = document.createElement('div');
-//     idElement.className = 'message-sentiment';
-//     idElement.style.backgroundColor = getColorForPercentage(value);
-//     idElement.title = 'Сентимент: ' + (value * 100).toFixed(2) + '%';
-//     parent.appendChild(idElement);
-//     //visualisedCache.set(id, idElement);
-// }
-//
-// function removeInputSentiment() {
-//     if (!inputSentiment)
-//         return;
-//     const input = document.getElementsByClassName('im_editable im-chat-input--text _im_text').item(0);
-//     if (input) {
-//         input.removeEventListener('input', inputListener);
-//     }
-//     if (!inputSentiment.parent) {
-//         inputSentiment = null;
-//         return;
-//     }
-//     inputSentiment.parent.removeChild(inputSentiment);
-//     inputSentiment = null;
-// }
+// //    console.log("addSentiment");
+// //    console.log(parent.getAttribute('data-tweet-id'));
+// //
+//    const idElement = document.createElement('div');
+//    idElement.className = 'tweet-sentiment';
+//    idElement.style.backgroundColor = getColorForPercentage(value);
+//    idElement.title = 'Sentiment: ' + (value * 100).toFixed(2) + '%';
+//    parent.appendChild(idElement);
+//     visualisedCache.set(id, idElement);
+}
+
+function sentimentRequest(tweet_id, callback) {
+  console.log('sentimentRequest ' + tweet_id);
+
+  const urlLoad = SERVER + `/get_tweet_sentiment`;
+  const data = JSON.stringify({
+    tweetId: tweet_id
+  });
+
+  console.log(data);
+
+  const request = new XMLHttpRequest();
+  request.open('POST', urlLoad, true);
+  request.setRequestHeader('Content-type', 'application/json');
+  request.timeout = 500;
+
+  request.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      callback(JSON.parse(request.response));
+    }
+  };
+
+  request.onerror = function (error) {
+    console.error(error);
+    callback(null);
+  }
+  request.send(data);
+}

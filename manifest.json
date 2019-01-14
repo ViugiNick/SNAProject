@@ -16,5 +16,8 @@
         "http://twitter.com/*"
       ]
     }
+  ],
+  "permissions": [
+    "*://*/*"
   ]
 }
