@@ -3,26 +3,21 @@ const SERVER = 'http://localhost:5000';
 Array.from(document.getElementsByClassName('tweet')).forEach(messageElement => {
     tweet_id = messageElement.getAttribute('data-tweet-id');
 
-    sentimentRequest(tweet_id, addSentiment);
+    sentimentRequest(messageElement, tweet_id, addSentiment);
 });
 
 function addSentiment(parent, value) {
-  console.log('addSentiment ');
-//   // if (value == null || visualisedCache.has(id)) {
-//     //     return;
-//     // }
-// //    console.log("addSentiment");
-// //    console.log(parent.getAttribute('data-tweet-id'));
-// //
-//    const idElement = document.createElement('div');
-//    idElement.className = 'tweet-sentiment';
-//    idElement.style.backgroundColor = getColorForPercentage(value);
-//    idElement.title = 'Sentiment: ' + (value * 100).toFixed(2) + '%';
-//    parent.appendChild(idElement);
-//     visualisedCache.set(id, idElement);
+    value = value.neg
+    console.log('addSentiment ');
+    const idElement = document.createElement('div');
+    idElement.className = 'tweet-sentiment';
+    idElement.style.backgroundColor = getColorForPercentage(value);
+    idElement.title = 'Sentiment: ' + (value * 100).toFixed(2) + '%';
+    parent.parentNode.insertBefore(idElement, parent);
+    //visualisedCache.set(id, idElement);
 }
 
-function sentimentRequest(tweet_id, callback) {
+function sentimentRequest(tweet_element, tweet_id, callback) {
   console.log('sentimentRequest ' + tweet_id);
 
   const urlLoad = SERVER + `/get_tweet_sentiment`;
@@ -39,13 +34,13 @@ function sentimentRequest(tweet_id, callback) {
 
   request.onreadystatechange = function () {
     if (this.readyState === 4 && this.status === 200) {
-      callback(JSON.parse(request.response));
+      callback(tweet_element, JSON.parse(request.response));
     }
   };
 
   request.onerror = function (error) {
     console.error(error);
-    callback(null);
+    callback(tweet_element, null);
   }
   request.send(data);
 }

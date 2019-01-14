@@ -11,6 +11,7 @@
   "content_scripts": [
     {
       "js": ["src/colors.js", "src/content.js"],
+      "css": ["src/style.css"],
       "matches": [
         "https://twitter.com/*",
         "http://twitter.com/*"

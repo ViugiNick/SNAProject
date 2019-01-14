@@ -1,0 +1,6 @@
+.tweet-sentiment {
+    z-index: 1;
+    height: 100%;
+    position: absolute;
+    width: 10px;
+}
