@@ -20,3 +20,7 @@ def pos_neg_request():
     else:
         app.logger.warning("Someone doing get reqest for prediction, ignoring")
     return Response(status=201)
+
+
+if __name__ == "__main__":
+    app.run()
