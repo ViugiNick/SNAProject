@@ -5,13 +5,14 @@
   "version": "0.0.1",
   "browser_action": {
     "default_icon": {
-      "512": "src/logo.png"
-    }
+      "512": "logo.png"
+    },
+    "default_popup": "popup.html"
   },
   "content_scripts": [
     {
-      "js": ["src/colors.js", "src/content.js"],
-      "css": ["src/style.css"],
+      "js": ["colors.js", "content.js", "popup.js"],
+      "css": ["style.css", "popup.css"],
       "matches": [
         "https://twitter.com/*",
         "http://twitter.com/*"

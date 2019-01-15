@@ -10,6 +10,7 @@ def pos_neg_request():
         try:
             body = request.json
             tweet_id = body["tweetId"]
+            tweet_message = body["tweetMessage"]
 
             # TODO
             # count sentiment

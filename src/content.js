@@ -3,11 +3,12 @@ const SERVER = 'http://localhost:5000';
 Array.from(document.getElementsByClassName('tweet')).forEach(messageElement => {
     tweet_id = messageElement.getAttribute('data-tweet-id');
 
-    sentimentRequest(messageElement, tweet_id, addSentiment);
+    content_element = messageElement.getElementsByClassName("tweet-text")[0];
+    sentimentRequest(content_element.innerHTML, messageElement, tweet_id, addSentiment);
 });
 
 function addSentiment(parent, value) {
-    value = value.neg
+    value = value.neg;
     console.log('addSentiment ');
     const idElement = document.createElement('div');
     idElement.className = 'tweet-sentiment';
@@ -17,12 +18,13 @@ function addSentiment(parent, value) {
     //visualisedCache.set(id, idElement);
 }
 
-function sentimentRequest(tweet_element, tweet_id, callback) {
+function sentimentRequest(tweet_message, tweet_element, tweet_id, callback) {
   console.log('sentimentRequest ' + tweet_id);
 
   const urlLoad = SERVER + `/get_tweet_sentiment`;
   const data = JSON.stringify({
-    tweetId: tweet_id
+    tweetId: tweet_id,
+      tweetMessage: tweet_message
   });
 
   console.log(data);
