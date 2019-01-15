@@ -25,4 +25,4 @@ seq = sent_tokenizer.texts_to_sequences(str(sys.argv[1]))
 padded = pad_sequences(seq, maxlen=max_len)
 pred = loaded_sent_model.predict(padded)
 labels = ['neutral', 'irrelevant', 'negative', 'positive']
-print(labels[np.argmax(pred[0])])
+print(pred[0])
